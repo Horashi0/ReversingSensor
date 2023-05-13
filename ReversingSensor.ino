@@ -2,6 +2,7 @@
 #include "SR04.h"
 #include <LiquidCrystal.h>
 
+
 // Define Pins
 #define TRIG_PIN 53
 #define ECHO_PIN 51
@@ -16,6 +17,9 @@ String aString;
 long a;
 int redValue;
 
+int duration = 500;
+int buzzer = 5;
+
 int distance[] = {50, 40, 30, 20, 10, 5};
 int numDistances = sizeof(distance) / sizeof(distance[0]);
 
@@ -27,10 +31,14 @@ void setup() {
 
   // LED
   pinMode(RED, OUTPUT);
+
+  // Buzzer
+  pinMode (buzzer, OUTPUT) ;
 }
 
 
 void loop() {
+  
   // Distance
   a = sr04.Distance();
   aString = String(a);
@@ -52,6 +60,14 @@ void loop() {
     if (a <= distance[i]) {
       switch (distance[i]) {
         case 50:
+        
+          for (int x = 0; x <100; x++) // When a frequency sound
+          {
+            digitalWrite (buzzer, HIGH) ; //send tone
+            delay (1) ;
+            digitalWrite (buzzer, LOW) ; //no tone
+            delay (1) ;
+          }
           digitalWrite(RED, HIGH);
           redValue = 250;  
           digitalWrite(RED, HIGH); 
